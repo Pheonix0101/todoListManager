@@ -1,8 +1,7 @@
-import React from 'react'
 
 function Navbar() {
   return (
-    <nav className='flex justify-between bg-slate-800 text-white py-3'>
+    <nav className='flex justify-around bg-slate-800 text-white py-3'>
         <div className="logo">
             <span className='font-bold text-xl text-white mx-9' >TaskManager</span>
         </div>

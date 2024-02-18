@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+body{
+   
+    background-color: rgb(163, 190, 190);
+    opacity: 5;
+}
+
