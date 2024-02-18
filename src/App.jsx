@@ -6,6 +6,7 @@ import Navbar from "./components/Navbar";
 function App() {
   const [todo, setTodo] = useState(""); // input text
   const [todos, setTodos] = useState([]);
+  const [showCompleted, setshowCompleted] = useState(true);
 
   useEffect(() => {
     let localTodos = JSON.parse(localStorage.getItem("todos"));
@@ -33,8 +34,10 @@ function App() {
 
   const handleDelete = (e, id) => {
     let newTodos = todos.filter((item) => {
+      console.log(item.id)
       return item.id !== id;
     });
+    console.log(id);
     setTodos(newTodos);
     saveToLocalStorage();
   };
@@ -62,44 +65,51 @@ function App() {
     setTodos(newTodos);
     saveToLocalStorage();
   };
+  
+  const toggleCompleted =()=>{
+    setshowCompleted(!showCompleted)
+
+  }
 
   return (
     <>
       <Navbar />
-      <div className="container mx-auto bg-violet-200 rounded-md p-4 my-5 min-h-[80vh]">
-        <div className="addtodo">
+      <div className="container mx-auto bg-violet-200 rounded-md p-4 my-5 min-h-[80vh] w-1/2">
+        <h1 className="flex justify-center text-red-700 text-xl font-semibold">TaskManager - Manage your task at one place</h1>
+        <div className="addtodo flex flex-col">
           <h2 className="text-lg font-bold ">Add Todo</h2>
           <input
             type="text"
             value={todo}
             name=""
             id=""
-            className="w-1/2"
+            className="w-full"
             onChange={handleChange}
           />
           <button
-            onClick={handleAdd}
-            className="bg-violet-500 text-white font-semibold text-sm hover:bg-violet-900 p-3 py-1 rounded-md m-6"
+            onClick={handleAdd} disabled={todo.length <3}
+            className="bg-violet-500 text-white font-semibold text-sm hover:bg-violet-900 p-3 py-1 rounded-md my-4 disabled:bg-red-600"
           >
             Save
           </button>
         </div>
+        <input onChange={toggleCompleted} type="checkbox" name="" checked={showCompleted} id="" /> show Completed task
         <h2 className="text-lg font-bold ">Your todos</h2>
         <div className="todos">
           {todos.length === 0 && (
             <div className="m-5"> No Todos to display</div>
           )}
           {todos.map((item) => {
-            return (
+            return (showCompleted || !item.isCompleted) &&
               <div
                 key={item.id}
-                className="todo flex w-1/4 justify-between my-3"
+                className="todo flex w-1/2 justify-between my-3"
               >
                 <div className="flex gap-5">
                   <input
                     type="checkbox"
                     onChange={handleCheckBox}
-                    value={todos.isCompleted}
+                    checked={todos.isCompleted}
                     name={item.id}
                     id=""
                   />
@@ -122,7 +132,7 @@ function App() {
                   </button>
                 </div>
               </div>
-            );
+            
           })}
         </div>
       </div>
